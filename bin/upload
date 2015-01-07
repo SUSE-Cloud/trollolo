@@ -1,0 +1,19 @@
+#!/bin/sh
+
+upload=temp/upload
+mkdir -p $upload
+touch $upload/index.html # empty index for increased privacy
+for t in green grapes orange; do
+    ( cd data/$t ;
+    for f in burndown-*.png ; do
+        cp -al $f ../../$upload/$t-$f
+    done
+    )
+done
+
+rsync -a $upload/ www.zq1.de:/var/www/zq1/burndown/
+rm -rf $upload
+# backup
+rsync -a --delete-after ~/trollolo/ www.zq1.de:/var/www/zq1/burndown/trollolo/
+#rsync -a --delete-after ~/trollolo/ /suse/bwiedemann/Export/cloud/trello-burndown/
+

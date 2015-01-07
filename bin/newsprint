@@ -1,0 +1,14 @@
+#!/bin/sh
+t=bin/trollolo
+TEAMS="green grapes orange"
+SPRINTN=`cat data/sprint`
+SPRINTN=$(($SPRINTN+1))
+for team in $TEAMS ; do
+  d=data/$team
+  mv $d/burndown-*.png $d/archive/
+  $t burndown -n --output=$d
+done
+
+export SPRINT=$(printf %02d $SPRINTN)
+echo $SPRINT > data/sprint
+
