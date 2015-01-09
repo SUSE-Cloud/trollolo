@@ -177,7 +177,34 @@ class Cli < Thor
     puts "   Done: #{burndown.extra_tasks.done}"
     puts "  Total: #{burndown.extra_tasks.total}"
   end
-  
+
+  desc "get-board-list", "Get board-list.yaml from meta trello board"
+  option "board-id", :desc => "Id of Trello board", :required => true
+  def get_board_list
+    process_global_options options
+    require_trello_credentials
+
+    trello = Trello.new(board_id: options["board-id"], developer_public_key: @@settings.developer_public_key, member_token: @@settings.member_token)
+
+    cards = trello.cards
+    burndown = BurndownData.new @@settings
+    burndown.board_id = options["board-id"]
+
+    boardinfos={}
+    teams_list_id = burndown.find_list_by_title("Teams")
+    cards.each do |card|
+      name = card["name"]
+      list = card["idList"]
+      if list == teams_list_id
+        boardinfo = Card.parse_yaml_from_description(card["desc"])
+        if boardinfo
+          boardinfos[name] = boardinfo
+        end
+      end
+    end
+    puts boardinfos.to_yaml
+  end
+
   desc "burndown-init", "Initialize burndown chart"
   option :output, :aliases => :o, :desc => "Output directory", :required => true
   option "board-id", :desc => "Id of Trello board", :required => true
