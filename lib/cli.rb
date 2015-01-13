@@ -263,8 +263,9 @@ EOT
       if ! File.directory?(destdir)
         chart.setup(destdir, board["boardid"])
       end
-      chart.update({'output' => destdir, plot: options[:plot]})
+      fork {chart.update({'output' => destdir, plot: options[:plot]})} # run slow work in background
     end
+    Process.waitall
   end
 
   desc "burndown-init", "Initialize burndown chart"
