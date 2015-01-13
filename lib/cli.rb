@@ -221,8 +221,9 @@ class Cli < Thor
         end
         chart.setup(destdir, board["boardid"])
       end
-      chart.update(destdir, options[:plot])
+      fork {chart.update(destdir, options[:plot])} # run slow work in background
     end
+    Process.waitall
   end
 
   desc "burndown-init", "Initialize burndown chart"
