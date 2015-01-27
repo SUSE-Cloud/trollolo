@@ -75,22 +75,12 @@ class BurndownData
     @meta
   end
 
-  def find_list_by_title(expression)
-    lists = trello.lists
-    lists.each do |l|
-      if expression.match(l["name"])
-        return l["id"]
-      end
-    end
-    return nil
-  end
-
   def fetch_todo_list_id
-    find_list_by_title("Sprint Backlog") or raise "Unable to find sprint backlog column on sprint board"
+    trello.find_list_by_title("Sprint Backlog") or raise "Unable to find sprint backlog column on sprint board"
   end
 
   def fetch_doing_list_id
-    find_list_by_title("Doing") or raise "Unable to find doing column on sprint board"
+    trello.find_list_by_title("Doing") or raise "Unable to find doing column on sprint board"
   end
 
   def fetch_done_list_id
@@ -117,7 +107,7 @@ class BurndownData
 
     todo_list_id = fetch_todo_list_id
     doing_list_id = fetch_doing_list_id
-    blocked_list_id = find_list_by_title(/^Blocked/)
+    blocked_list_id = trello.find_list_by_title(/^Blocked/)
     done_list_id = fetch_done_list_id
     
     if @settings.verbose

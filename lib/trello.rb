@@ -47,6 +47,15 @@ class Trello
     get "lists"
   end
 
+  def find_list_by_title(expression)
+    lists.each do |l|
+      if expression.match(l["name"])
+        return l["id"]
+      end
+    end
+    return nil
+  end
+
   def cards
     get "cards"
   end
