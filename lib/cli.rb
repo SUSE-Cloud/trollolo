@@ -178,13 +178,8 @@ class Cli < Thor
     puts "  Total: #{burndown.extra_tasks.total}"
   end
 
-  desc "get-board-list", "Get board-list.yaml from meta trello board"
-  option "board-id", :desc => "Id of Trello board", :required => true
-  def get_board_list
-    process_global_options options
-    require_trello_credentials
-
-    trello = Trello.new(board_id: options["board-id"], developer_public_key: @@settings.developer_public_key, member_token: @@settings.member_token)
+  def get_board_list_obj(boardid)
+    trello = Trello.new(board_id: boardid, developer_public_key: @@settings.developer_public_key, member_token: @@settings.member_token)
 
     cards = trello.cards
     teams_list_id = trello.find_list_by_title("Teams")
@@ -199,6 +194,15 @@ class Cli < Thor
         end
       end
     end
+    return boardinfos
+  end
+
+  desc "get-board-list", "Get board-list.yaml from meta trello board"
+  option "board-id", :desc => "Id of Trello board", :required => true
+  def get_board_list
+    process_global_options options
+    require_trello_credentials
+    boardinfos = get_board_list_obj(options["board-id"])
     puts boardinfos.to_yaml
   end
 
