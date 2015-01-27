@@ -187,11 +187,8 @@ class Cli < Thor
     trello = Trello.new(board_id: options["board-id"], developer_public_key: @@settings.developer_public_key, member_token: @@settings.member_token)
 
     cards = trello.cards
-    burndown = BurndownData.new @@settings
-    burndown.board_id = options["board-id"]
-
+    teams_list_id = trello.find_list_by_title("Teams")
     boardinfos={}
-    teams_list_id = burndown.find_list_by_title("Teams")
     cards.each do |card|
       name = card["name"]
       list = card["idList"]
