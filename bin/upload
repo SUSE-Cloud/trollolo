@@ -3,7 +3,8 @@
 upload=temp/upload
 mkdir -p $upload
 touch $upload/index.html # empty index for increased privacy
-for t in green grapes orange; do
+teams=`perl -ne 'm/^[a-z]+/ && print "$& "' data/board-list.yaml`
+for t in $teams ; do
     ( cd data/$t ;
     for f in burndown-*.png ; do
         cp -al $f ../../$upload/$t-$f
