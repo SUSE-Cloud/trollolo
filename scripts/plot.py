@@ -75,6 +75,7 @@ class Plot:
     story_points['draw_tasks_diff'] = 0
     story_points['draw_bonus_tasks_diff'] = 0
     story_points['x'] = self.data.days
+    self.data.open_story_points[0] = self.data.total_story_points[0] # avoid hiding points of first day
     story_points['y'] = self.data.open_story_points
     if self.data.extra_day:
       story_points['x_extra'] = self.data.story_points_extra_days
