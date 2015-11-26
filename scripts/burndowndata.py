@@ -13,6 +13,10 @@ class BurndownData:
     self.setBonusTasksDayOne(burndown)
     self.setExtraDays()
     self.calculateYRange(self.max_story_points, self.bonus_tasks_done, self.bonus_story_points_done)
+    real_total_tasks = self.total_tasks[-1]
+    for i in range(0, len(self.total_tasks)-1):
+      self.open_tasks[i] += (real_total_tasks-self.total_tasks[i])
+      self.total_tasks[i] = real_total_tasks
     self.setScaleFactor(self.total_tasks[0], self.max_story_points)
 
   def readYAML(self, sprint_number):
