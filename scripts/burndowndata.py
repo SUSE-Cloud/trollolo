@@ -108,6 +108,9 @@ class BurndownData:
     return
 
   def setScaleFactor(self, total_tasks, max_story_points):
-    self.scalefactor = float(total_tasks) / float(max_story_points)
+    if max_story_points <= 0.001:
+      self.scalefactor = 1
+    else:
+      self.scalefactor = float(total_tasks) / float(max_story_points)
     return
 
