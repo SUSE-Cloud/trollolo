@@ -1,6 +1,8 @@
 #!/bin/sh
 t=bin/trollolo
-TEAMS="green grapes orange"
+#TEAMS="green grapes orange"
+TEAMS=$(perl -ne 'm/^(\w.*):/ && print "$1\n"' data/board-list.yaml)
+
 SPRINTN=`cat data/sprint`
 SPRINTN=$(($SPRINTN+1))
 for team in $TEAMS ; do
