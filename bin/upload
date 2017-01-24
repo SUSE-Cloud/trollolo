@@ -16,5 +16,5 @@ rsync -a $upload/ www.zq1.de:/var/www/zq1/burndown/
 rm -rf $upload
 # backup
 rsync -a --delete-after ~/trollolo/ www.zq1.de:/var/www/zq1/burndown/trollolo/
-#rsync -a --delete-after ~/trollolo/ /suse/bwiedemann/Export/cloud/trello-burndown/
+rsync -a --delete-after ~/trollolo/ ~/remote/trollolo/
 
